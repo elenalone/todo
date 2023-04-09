@@ -1,4 +1,4 @@
-name: Deploy to Kubernetes
+name: Deploy api to Kubernetes
 
 on:
   workflow_dispatch:
@@ -42,7 +42,7 @@ jobs:
       - name: Write kubeconfig to file
         run: echo "${{ secrets.KUBE_CONFIG_DATA }}" > kubeconfig.yaml
       - name: Install Chart
-        run: helm upgrade --install api /CI/chart/api/ --kubeconfig kubeconfig.yaml
+        run: helm upgrade --install api /CI/charts/api/ --kubeconfig kubeconfig.yaml
         env:
           command: upgrade
           chart: api
