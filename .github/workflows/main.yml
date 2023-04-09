@@ -40,7 +40,7 @@ jobs:
         with:
           version: '3.6.3'
       - name: Write kubeconfig to file
-        run: echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > kubeconfig.yaml
+        run: echo "${{ secrets.KUBE_CONFIG_DATA }}" > kubeconfig.yaml
       - name: Install Chart
         run: helm upgrade --install api /CI/chart/api/ --kubeconfig kubeconfig.yaml
         env:
