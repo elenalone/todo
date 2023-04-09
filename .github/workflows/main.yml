@@ -47,4 +47,4 @@ jobs:
           release-name: api
           set: image.repository=${{ secrets.REGISTRY_URL }}/api,image.tag=${{ github.sha }}
           namespace: ${{ secrets.KUBE_NAMESPACE }}
-          kubeconfig: '${{ secrets.KUBECONFIG }}'
+          kubeconfig: '${{ secrets.KUBE_CONFIG_DATA }}'
