@@ -40,10 +40,11 @@ jobs:
         with:
           version: '3.6.3'
       - name: Install Chart
-        run: helm upgrade --install api /CI/chart/api/ --kubeconfig "${{ secrets.KUBE_CONFIG_DATA }}
+        run: helm upgrade --install api /CI/chart/api/
         env:
           command: upgrade
           chart: api
           release-name: api
           set: image.repository=${{ secrets.REGISTRY_URL }}/api,image.tag=${{ github.sha }}
           namespace: ${{ secrets.KUBE_NAMESPACE }}
+          kubeconfig: '${{ secrets.KUBECONFIG }}'
