@@ -1,0 +1,45 @@
+name: Deploy web to Kubernetes
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/labeler@v4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Azure Registry login
+        uses: Azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_URL }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile-web
+          push: true
+          tags: ${{ secrets.REGISTRY_URL }}/web:${{ github.sha }}
+
+      - name: Set up kubectl
+        uses: Azure/setup-kubectl@v1
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+          version: 'v1.26.3'
+      - name: Setup Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: '3.6.3'
+      - name: Write kubeconfig to file
+        run: echo "${{ secrets.KUBE_CONFIG_DATA }}" > kubeconfig.yaml
+      - name: Install Chart
+        run: helm upgrade --install api ./CI/charts/web/ --kubeconfig kubeconfig.yaml --set=global.registry=${{ secrets.REGISTRY_URL }},imagePath=/web,tag=${{ github.sha }} --namespace=${{ secrets.KUBE_NAMESPACE }} --values ./CI/values.yaml --values ./CI/charts/web/values.yaml
