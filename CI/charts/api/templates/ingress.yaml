@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Value.name }}
+  name: {{ .Values.name }}
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
@@ -14,6 +14,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Value.name }}
+                name: {{ .Values.name }}
                 port:
                   name: http

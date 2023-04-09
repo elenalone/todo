@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: {{ .Values.name }}
-          image: '{{ .Values.global.registry }}{{ .Values.image-path}}:{{.Values.tag}}'
+          image: "{{ .Values.global.registry }}{{ .Values.imagePath}}:{{ .Values.tag }}"
           ports:
             - containerPort: 80
-          imagePullSecrets:
-          - name: {{ .Values.global.registry-secret }}
+      imagePullSecrets:
+      - name: {{ .Values.global.registrySecret }}
