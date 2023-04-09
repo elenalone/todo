@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/labeler@v4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -30,10 +34,15 @@ jobs:
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
           version: 'v1.26.3'
-
-      - name: Deploy to Kubernetes
-        uses: Azure/k8s-helm@v1
+      - name: Setup Helm
+        uses: azure/setup-helm@v1
         with:
+          version: '3.6.3'
+      - name: Add Helm Repo
+        run: helm repo add my-charts https://github.com/elenalone/todo/CI/chart/api
+      - name: Install Chart
+        run: helm upgrade --install api api/
+        env:
           command: upgrade
           chart: todo-api
           release-name: todo-api
