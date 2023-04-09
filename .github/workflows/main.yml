@@ -28,7 +28,7 @@ jobs:
           context: .
           file: ./Dockerfile-api
           push: true
-          tags: ${{ secrets.REGISTRY_URL }}/todo-api:${{ github.sha }}
+          tags: ${{ secrets.REGISTRY_URL }}/api:${{ github.sha }}
 
       - name: Set up kubectl
         uses: Azure/setup-kubectl@v1
@@ -47,3 +47,4 @@ jobs:
           release-name: api
           set: image.repository=${{ secrets.REGISTRY_URL }}/api,image.tag=${{ github.sha }}
           namespace: ${{ secrets.KUBE_NAMESPACE }}
+          KUBECONFIG: ${{ secrets.KUBE_CONFIG_DATA }}
