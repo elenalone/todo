@@ -1,0 +1,3 @@
+name: web
+image-path: /web
+tag: latest

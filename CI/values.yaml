@@ -1,0 +1,5 @@
+global:
+  registry: stakach.azurecr.io
+  registry-secret: azure-registry
+  host: todo.stakach.com
+  version: 0.0.1

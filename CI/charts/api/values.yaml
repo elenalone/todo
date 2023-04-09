@@ -1,0 +1,3 @@
+name: api
+image-path: /api
+tag: latest
