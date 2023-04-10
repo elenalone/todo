@@ -42,4 +42,4 @@ jobs:
       - name: Write kubeconfig to file
         run: echo "${{ secrets.KUBE_CONFIG_DATA }}" > kubeconfig.yaml
       - name: Install Chart
-        run: helm upgrade --install api ./CI/charts/web/ --kubeconfig kubeconfig.yaml --set=global.registry=${{ secrets.REGISTRY_URL }},imagePath=/web,tag=${{ github.sha }} --namespace=${{ secrets.KUBE_NAMESPACE }} --values ./CI/values.yaml --values ./CI/charts/web/values.yaml
+        run: helm upgrade --install web ./CI/charts/web/ --kubeconfig kubeconfig.yaml --set=global.registry=${{ secrets.REGISTRY_URL }},imagePath=/web,tag=${{ github.sha }} --namespace=${{ secrets.KUBE_NAMESPACE }} --values ./CI/values.yaml --values ./CI/charts/web/values.yaml
