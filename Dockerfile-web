@@ -1,2 +1,3 @@
 FROM nginx:alpine
+ENV LANG=en_US.UTF-8
 COPY ./src/frontend /usr/share/nginx/html
